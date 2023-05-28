@@ -4,7 +4,12 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView
+)
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from . models import *
 from . serializers import *
 # Create your views here.
@@ -14,7 +19,7 @@ class Helper():
 
     def getObject(self,model,slug):
         return get_object_or_404(model,slug = slug)
-    
+
     def checkValid(self,serializer,flag=False):
         if serializer.is_valid():
             serializer.save()
@@ -34,11 +39,11 @@ class PostViewSet(viewsets.ViewSet,Helper):
         queryset = Post.objects.all()
         serializer = PostSerializer(queryset, many = True)
         return Response(serializer.data)
-    
+
     def retrieve(self, request, slug):
         serializer = PostSerializer(self.getObject(Post,slug), many = False)
         return Response(serializer.data)
-    
+
     def create(self, request):
         serializer = PostSerializer(data = request.data)
         self.checkValid(serializer, flag=True)
@@ -54,7 +59,7 @@ class PostViewSet(viewsets.ViewSet,Helper):
 
 
 
-        
+
 
 class UserViewSet(viewsets.ViewSet, Helper):
 
@@ -62,26 +67,49 @@ class UserViewSet(viewsets.ViewSet, Helper):
         queryset = UserAccount.objects.all()
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
-    
+
     def retrieve(self, request, pk):
         user_list = get_object_or_404(UserAccount, pk = pk)
         serializer = UserSerializer(user_list)
         return Response(serializer.data)
-    
+
     def create(self, request):
         serializer = UserSerializer(data = request.data)
         self.checkValid(serializer, flag= True)
-    
+
     def update(self, request, pk):
 
         user = get_object_or_404(UserAccount, pk = pk)
         serializer = UserSerializer(user, data = request.data)
         self.checkValid(serializer)
-    
+
     def destroy(self, request, pk):
 
         user = get_object_or_404(UserAccount, pk = pk)
         user.delete()
         return Response(status = status.HTTP_200_OK)
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user: UserAccount):
+        token = super().get_token(user)
+        token['name'] = user.name
+        token['email'] = user.email
+        token['user_id'] = user.id
+        return token
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
+
+
+
+
+
+
+
+
 
 
