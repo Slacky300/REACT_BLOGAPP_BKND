@@ -12,7 +12,7 @@ router.register(r'posts',views.PostViewSet, basename = "posts")
 
 urlpatterns = [
 
-    # path('',include(router.urls)),
+    path('',include(router.urls)),
     # path('user/',views.UserList.as_view(),name="userList"),
     # path('user/<int:pk>',views.UserDetail.as_view(),name="userDetail"),
 ]
