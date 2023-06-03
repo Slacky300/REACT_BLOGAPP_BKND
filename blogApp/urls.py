@@ -7,12 +7,16 @@ from rest_framework_simplejwt.views import (
 )
 router = routers.DefaultRouter()
 router.register(r'posts',views.PostViewSet, basename = "posts")
+# router.register(r'comments/<slug:slug>/',views.CommentViewSet, basename = "comments")
+
 
 
 
 urlpatterns = [
 
     path('',include(router.urls)),
-    # path('user/',views.UserList.as_view(),name="userList"),
-    # path('user/<int:pk>',views.UserDetail.as_view(),name="userDetail"),
+    path('comments/<slug:slug>/',views.CommentViewSet.as_view({'get': 'list'}),name="commentList"),
+    # path('comments/<int:pk>/',views.CommentDetailView.as_view(),name="commenDetail"),
+    # path('getcomment/<slug:slug>/',views.getComments,name="getComments"),
+
 ]

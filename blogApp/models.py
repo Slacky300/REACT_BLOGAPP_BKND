@@ -63,3 +63,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Comment(models.Model):
+
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    byUser = models.ForeignKey(UserAccount,on_delete=models.CASCADE)
+    text = models.CharField(max_length=250)
+    cmntDate = models.DateField(auto_now_add=True)
+    likes = models.ManyToManyField(UserAccount, related_name = "userCmnt", blank=True)
+
+    def __str__(self):
+        return str(self.byUser)

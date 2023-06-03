@@ -26,8 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/',include('djoser.urls')),
     path('auth/',include('djoser.urls.jwt')),
-    path('',include("blogApp.urls")),
-    path('login/',views.CustomTokenObtainPairView.as_view(),name = "login"),
+    path('api/',include("blogApp.urls")),
+    path('api/login/',views.CustomTokenObtainPairView.as_view(),name = "login"),
 ]
 
 urlpatterns += [re_path(r'^.*',TemplateView.as_view(template_name='index.html'))]
