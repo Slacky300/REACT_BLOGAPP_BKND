@@ -1,9 +1,11 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from rest_framework import generics
+from rest_framework import mixins
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -103,55 +105,56 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
-class CommentViewSet(viewsets.ViewSet, Helper):
+# class CommentViewSet(viewsets.ViewSet, Helper):
 
-    def list(self,request,slug):
+#     def list(self,request,slug):
 
 
+#         slug = self.kwargs['slug']
+#         post = Post.objects.get(slug=slug)
+#         queryset = Comment.objects.filter(post=post)
+#         serializer = CommentSerializer(queryset, many = True)
+#         return Response(serializer.data)
+
+#     def retrieve(self, request, slug):
+#         serializer = CommentSerializer(self.getObject(Comment,slug), many = False)
+#         return Response(serializer.data)
+
+#     def create(self, request):
+#         serializer = CommentSerializer(data = request.data)
+#         self.checkValid(serializer, flag=True)
+
+#     def update(self, request, slug):
+#         serializer = CommentSerializer(self.getObject(Comment,slug),data = request.data)
+#         self.checkValid(serializer)
+
+#     def destroy(self, request, slug):
+#         cmnt =  self.getObject(Comment,slug)
+#         cmnt.delete()
+#         return Response(status = status.HTTP_200_OK)
+
+class CommentViewSet(APIView):
+
+    def get(self,request,slug):
         slug = self.kwargs['slug']
         post = Post.objects.get(slug=slug)
         queryset = Comment.objects.filter(post=post)
         serializer = CommentSerializer(queryset, many = True)
         return Response(serializer.data)
+    
+    def post(self,request,slug):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    def retrieve(self, request, slug):
-        serializer = CommentSerializer(self.getObject(Comment,slug), many = False)
-        return Response(serializer.data)
-
-    def create(self, request):
-        serializer = CommentSerializer(data = request.data)
-        self.checkValid(serializer, flag=True)
-
-    def update(self, request, slug):
-        serializer = CommentSerializer(self.getObject(Comment,slug),data = request.data)
-        self.checkValid(serializer)
-
-    def destroy(self, request, slug):
-        cmnt =  self.getObject(Comment,slug)
-        cmnt.delete()
-        return Response(status = status.HTTP_200_OK)
-
-# class CommentViewSet(generics.ListCreateAPIView):
-
-#     slug = 
-#     queryset = Comment.objects.filter(post = slug)
-#     serializer_class = CommentSerializer
-
-
-
-# class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
-
-
-# def getComments(request,slug):
-
-#     post = Post.objects.get(slug = slug)
-#     cmnt = Comment.objects.filter(post=post)
-#     lis = []
-#     for x in cmnt:
-#         lis.append(x.text)
-#     return JsonResponse(lis,safe=False)
-
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    
 
 
