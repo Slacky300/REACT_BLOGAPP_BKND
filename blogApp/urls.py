@@ -16,7 +16,8 @@ urlpatterns = [
 
     path('',include(router.urls)),
     path('comments/<slug:slug>/',views.CommentViewSet.as_view(),name="commentList"),
-    path('detcomments/<int:pk>/',views.CommentDetail.as_view(),name="cmntDetail")
+    path('detcomments/<int:pk>/',views.CommentDetail.as_view(),name="cmntDetail"),
+    path("postcomments/<slug:slug>/",views.AddComment.as_view(),name="addcomment"),
     # path('comments/<int:pk>/',views.CommentDetailView.as_view(),name="commenDetail"),
     # path('getcomment/<slug:slug>/',views.getComments,name="getComments"),
 

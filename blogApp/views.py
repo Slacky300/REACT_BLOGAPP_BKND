@@ -38,7 +38,7 @@ class PostViewSet(viewsets.ViewSet,Helper):
     lookup_field = 'slug'
 
     def list(self,request):
-        queryset = Post.objects.select_related('category').all().order_by('uploadedOn').values()
+        queryset = Post.objects.all()
         serializer = PostSerializer(queryset, many = True)
         return Response(serializer.data)
 
@@ -158,3 +158,10 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     
 
 
+class AddComment(APIView):
+    def post(self,request,slug):
+        serializer = CreateCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
