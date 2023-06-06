@@ -105,34 +105,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
-# class CommentViewSet(viewsets.ViewSet, Helper):
-
-#     def list(self,request,slug):
-
-
-#         slug = self.kwargs['slug']
-#         post = Post.objects.get(slug=slug)
-#         queryset = Comment.objects.filter(post=post)
-#         serializer = CommentSerializer(queryset, many = True)
-#         return Response(serializer.data)
-
-#     def retrieve(self, request, slug):
-#         serializer = CommentSerializer(self.getObject(Comment,slug), many = False)
-#         return Response(serializer.data)
-
-#     def create(self, request):
-#         serializer = CommentSerializer(data = request.data)
-#         self.checkValid(serializer, flag=True)
-
-#     def update(self, request, slug):
-#         serializer = CommentSerializer(self.getObject(Comment,slug),data = request.data)
-#         self.checkValid(serializer)
-
-#     def destroy(self, request, slug):
-#         cmnt =  self.getObject(Comment,slug)
-#         cmnt.delete()
-#         return Response(status = status.HTTP_200_OK)
-
 class CommentViewSet(APIView):
 
     def get(self,request,slug):
@@ -165,3 +137,12 @@ class AddComment(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class GetLatestPost(APIView):
+
+    def get(self,request):
+        posts = Post.objects.all().order_by('-uploadedOn')[:3]
+        serializer = PostSerializer(posts, many= True)
+        return Response(serializer.data)
+

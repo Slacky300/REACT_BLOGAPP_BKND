@@ -15,6 +15,7 @@ router.register(r'posts',views.PostViewSet, basename = "posts")
 urlpatterns = [
 
     path('',include(router.urls)),
+    path('getlatesposts/',views.GetLatestPost.as_view(), name="get_lates_post"),
     path('comments/<slug:slug>/',views.CommentViewSet.as_view(),name="commentList"),
     path('detcomments/<int:pk>/',views.CommentDetail.as_view(),name="cmntDetail"),
     path("postcomments/<slug:slug>/",views.AddComment.as_view(),name="addcomment"),
