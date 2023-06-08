@@ -19,6 +19,7 @@ urlpatterns = [
     path('comments/<slug:slug>/',views.CommentViewSet.as_view(),name="commentList"),
     path('detcomments/<int:pk>/',views.CommentDetail.as_view(),name="cmntDetail"),
     path("postcomments/<slug:slug>/",views.AddComment.as_view(),name="addcomment"),
+    path('get_category/',views.GetCategory.as_view(),name="get_category"),
     # path('comments/<int:pk>/',views.CommentDetailView.as_view(),name="commenDetail"),
     # path('getcomment/<slug:slug>/',views.getComments,name="getComments"),
 

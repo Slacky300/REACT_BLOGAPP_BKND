@@ -48,11 +48,19 @@ class PostViewSet(viewsets.ViewSet,Helper):
 
     def create(self, request):
         serializer = PostSerializer(data = request.data)
-        self.checkValid(serializer, flag=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.data, status = status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, slug):
         serializer = PostSerializer(self.getObject(Post,slug),data = request.data)
-        self.checkValid(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.data, status = status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, slug):
         post =  self.getObject(Post,slug)
@@ -146,3 +154,10 @@ class GetLatestPost(APIView):
         serializer = PostSerializer(posts, many= True)
         return Response(serializer.data)
 
+
+class GetCategory(APIView):
+
+    def get(self,request):
+        catg = Category.objects.all()
+        serializer = CategorySerializer(catg, many=True)
+        return Response(serializer.data)
