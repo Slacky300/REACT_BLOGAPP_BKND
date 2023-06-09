@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,15 +86,13 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'EventManagementS$blog',
-        'USER': 'EventManagementS',
-        'PASSWORD': 'RehmanKhan123DB',
-        'HOST':'EventManagementSystem.mysql.pythonanywhere-services.com',
+        'ENGINE': 'django_psdb_engine',
+        'NAME': 'project_db',
+        'USER': 'm7gwa5feac9ve3vvz1t1',
+        'PASSWORD': 'pscale_pw_8gK1xXYnpJ2P6XYIQMEXjPtVCQfwjvMbyRvPur49X2Q',
+        'HOST':'aws.connect.psdb.cloud',
         'PORT':'3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
+        'OPTIONS': {'ssl': {'ca': '/etc/ssl/certs/ca-certificates.crt'}}
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -181,11 +180,13 @@ DJOSER = {
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 AUTH_USER_MODEL = 'blogApp.UserAccount'
 STATIC_URL = '/static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'build/static'),
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static'),
+]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
