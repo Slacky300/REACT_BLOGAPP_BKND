@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'aw2jg@4lf&h0#xy*-9*-f@pkj-l@nwf%&^fj4xohdp$o8x2^_j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,15 +85,26 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'project_db',
+#         'USER': 'm7gwa5feac9ve3vvz1t1',
+#         'PASSWORD': 'pscale_pw_8gK1xXYnpJ2P6XYIQMEXjPtVCQfwjvMbyRvPur49X2Q',
+#         'HOST':'aws.connect.psdb.cloud',
+#         'PORT':'3306',
+#         'OPTIONS': {'ssl': {'ca': '/etc/ssl/certs/ca-certificates.crt'},
+#             'charset': 'utf8mb4',
+#         }
+#     }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project_db',
-        'USER': 'm7gwa5feac9ve3vvz1t1',
-        'PASSWORD': 'pscale_pw_8gK1xXYnpJ2P6XYIQMEXjPtVCQfwjvMbyRvPur49X2Q',
-        'HOST':'aws.connect.psdb.cloud',
+        'NAME': 'Absoultno$default',
+        'USER': 'Absoultno',
+        'PASSWORD': '%~a.26%Tg49kH-K',
+        'HOST':'Absoultno.mysql.pythonanywhere-services.com',
         'PORT':'3306',
-        'OPTIONS': {'ssl': {'ca': '/etc/ssl/certs/ca-certificates.crt'},
-            'charset': 'utf8mb4',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
     # 'default': {
