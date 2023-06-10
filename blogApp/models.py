@@ -52,7 +52,7 @@ class Category(models.Model):
 
 class Post(models.Model):
 
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True,blank=True)
+    category = models.ForeignKey(Category,on_delete=models.DO_NOTHING,null=True,blank=True, db_constraint=False)
     title = models.CharField(max_length=100)
     img = models.ImageField(upload_to='post/',null=True,blank=True)
     desc = models.TextField()
@@ -66,8 +66,8 @@ class Post(models.Model):
     
 class Comment(models.Model):
 
-    post = models.ForeignKey(Post,on_delete=models.CASCADE)
-    byUser = models.ForeignKey(UserAccount,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,models.DO_NOTHING, db_constraint=False)
+    byUser = models.ForeignKey(UserAccount,on_delete=models.DO_NOTHING, db_constraint=False)
     text = models.CharField(max_length=250)
     cmntDate = models.DateField(auto_now_add=True)
     likes = models.ManyToManyField(UserAccount, related_name = "userCmnt", blank=True)

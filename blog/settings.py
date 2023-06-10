@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_psdb_engine',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'project_db',
         'USER': 'm7gwa5feac9ve3vvz1t1',
         'PASSWORD': 'pscale_pw_8gK1xXYnpJ2P6XYIQMEXjPtVCQfwjvMbyRvPur49X2Q',
