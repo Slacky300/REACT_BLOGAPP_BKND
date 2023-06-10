@@ -92,7 +92,9 @@ DATABASES = {
         'PASSWORD': 'pscale_pw_8gK1xXYnpJ2P6XYIQMEXjPtVCQfwjvMbyRvPur49X2Q',
         'HOST':'aws.connect.psdb.cloud',
         'PORT':'3306',
-        'OPTIONS': {'ssl': {'ca': '/etc/ssl/certs/ca-certificates.crt'}}
+        'OPTIONS': {'ssl': {'ca': '/etc/ssl/certs/ca-certificates.crt'},
+            'charset': 'utf8mb4',
+        }
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -244,6 +246,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
     "http://192.168.0.103:3000",
+    "https://web-production-7aa5d.up.railway.app",
     "http://localhost:3000",
 ]
 
@@ -251,5 +254,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
     "http://192.168.0.103:3000",
+    "https://web-production-7aa5d.up.railway.app",
     "http://localhost:3000",
 ]
